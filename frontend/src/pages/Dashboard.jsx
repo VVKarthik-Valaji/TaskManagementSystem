@@ -1,9 +1,11 @@
 import { useState, useMemo, useCallback } from "react"
 import { useOutletContext } from "react-router-dom"
-import { Plus, Filter, Home as HomeIcon, Calendar as CalendarIcon, Flame } from "lucide-react"
+import { Plus, Filter, Home as HomeIcon, Calendar as CalendarIcon } from "lucide-react"
 import TaskModal from "../components/AddTask"
 import TaskItem from "../components/TaskItem"
 import axios from "axios"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 import {
   WRAPPER, HEADER, ADD_BUTTON, STATS_GRID, STAT_CARD, ICON_WRAPPER, VALUE_CLASS, LABEL_CLASS,
@@ -12,13 +14,16 @@ import {
 } from '../assets/dummy'
 
 // API Base
-const API_BASE = "http://localhost:4000/api/tasks"
+//const API_BASE = "http://localhost:4000/api/tasks"
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/tasks';
+
 
 const Dashboard = () => {
   const { tasks, refreshTasks } = useOutletContext()
   const [filter, setFilter] = useState("all")
   const [showModal, setShowModal] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
+  const [saving, setSaving] = useState(false)
 
   // Calculate stats
   const stats = useMemo(() => ({
@@ -36,7 +41,9 @@ const Dashboard = () => {
   const filteredTasks = useMemo(() => tasks.filter(task => {
     const dueDate = new Date(task.dueDate)
     const today = new Date()
-    const nextWeek = new Date(today); nextWeek.setDate(today.getDate() + 7)
+    today.setHours(0,0,0,0) // normalize today to start of day
+    const nextWeek = new Date(today)
+    nextWeek.setDate(today.getDate() + 7)
     switch (filter) {
       case "today":
         return dueDate.toDateString() === today.toDateString()
@@ -51,20 +58,31 @@ const Dashboard = () => {
     }
   }), [tasks, filter])
 
-  // Save tasks
+  // Save tasks (create or update)
   const handleTaskSave = useCallback(async (taskData) => {
+    setSaving(true)
     try {
-      if (taskData.id) await axios.put(`${API_BASE}/${taskData.id}/gp`, taskData)
+      if (taskData.id) {
+        await axios.put(`${API_BASE}/${taskData.id}`, taskData)
+        toast.success("Task updated successfully")
+      } else {
+        await axios.post(API_BASE, taskData)
+        toast.success("Task created successfully")
+      }
       refreshTasks()
       setShowModal(false)
       setSelectedTask(null)
     } catch (error) {
       console.error("Error saving task:", error)
+      toast.error("Failed to save task")
+    } finally {
+      setSaving(false)
     }
   }, [refreshTasks])
 
   return (
     <div className={WRAPPER}>
+      <ToastContainer position="top-center" autoClose={3000} />
       {/* Header */}
       <div className={HEADER}>
         <div className="min-w-0">
@@ -148,6 +166,7 @@ const Dashboard = () => {
         onClose={() => { setShowModal(false); setSelectedTask(null); }}
         taskToEdit={selectedTask}
         onSave={handleTaskSave}
+        saving={saving}
       />
     </div>
   )
