@@ -14,6 +14,7 @@ const SignUp = ({ onSwitchMode }) => {
   const [formData, setFormData] = useState(INITIAL_FORM)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState({ text: "", type: "" })
+  const url = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     console.log("SignUp form data changed:", formData)
@@ -24,7 +25,7 @@ const SignUp = ({ onSwitchMode }) => {
     setLoading(true)
     setMessage({ text: "", type: "" })
     try {
-      const { data } = await axios.post(`${API_URL}/api/user/register`, formData)
+      const { data } = await axios.post(`${url}/api/user/register`, formData)
       console.log("SignUp successful:", data)
       setMessage({ text: "Registration successful! You can now log in.", type: "success" })
       setFormData(INITIAL_FORM)
