@@ -16,7 +16,7 @@ const Login = ({ onSubmit, onSwitchMode }) => {
   const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const url = "http://localhost:4000"
+  const url = import.meta.env.VITE_API_URL;
 
   // Auto-login
   useEffect(() => {

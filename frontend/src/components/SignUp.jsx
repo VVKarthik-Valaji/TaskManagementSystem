@@ -6,7 +6,7 @@ import { Inputwrapper, FIELDS, BUTTONCLASSES, MESSAGE_SUCCESS, MESSAGE_ERROR } f
 
 // Dummy & Constants
 //const API_URL = "http://localhost:4000"
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/tasks';
+const API_BASE = `${import.meta.env.VITE_API_URL}/api/tasks`;
 
 const INITIAL_FORM = { name: "", email: "", password: "" }
 
