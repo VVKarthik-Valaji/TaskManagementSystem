@@ -14,7 +14,7 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         'http://localhost:5173',
-        'https://taskmanagementsystem-2-fhi6.onrender.com'
+        'https://taskmanagementsystem-2-fhi6.onrender.com' // your deployed frontend URL
     ],
     credentials: true
 }));
@@ -26,7 +26,6 @@ connectDB();
 
 // Routes
 app.use("/api/user", userRouter);
-
 app.use('/api/tasks', taskRouter);
 
 app.get('/', (req, res) => {
@@ -34,5 +33,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server Started on http://localhost:${port}`);
+    // Changed from localhost to generic message for Render compatibility
+    console.log(`Server started on port ${port}`);
 });
