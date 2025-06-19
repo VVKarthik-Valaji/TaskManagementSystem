@@ -6,7 +6,7 @@ import { getPriorityColor, getPriorityBadgeColor, TI_CLASSES, MENU_OPTIONS, } fr
 import { CheckCircle2, MoreVertical, Clock, Calendar } from "lucide-react"
 
 //const API_BASE = "http://localhost:4000/api/tasks"
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/tasks';
+const API_BASE = `${import.meta.env.VITE_API_URL}/api/tasks`;
 
 
 const TaskItem = ({ task, onRefresh, onLogout, showCompleteCheckbox = true }) => {

@@ -6,7 +6,7 @@ import TaskModal from '../components/AddTask';
 import { layoutClasses } from '../assets/dummy';
 
 //const API_BASE = 'http://localhost:4000/api/tasks';
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/tasks';
+const API_BASE = `${import.meta.env.VITE_API_URL}/api/tasks`;
 
 const sortOptions = [
   { id: 'newest', label: 'Newest', icon: <SortDesc className="w-3 h-3" /> },

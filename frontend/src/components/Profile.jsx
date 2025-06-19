@@ -9,7 +9,7 @@ import { INPUT_WRAPPER, FULL_BUTTON, SECTION_WRAPPER, BACK_BUTTON, DANGER_BTN, p
 
 // Constants & Dummy Data
 //const API_URL = "http://localhost:4000"
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/tasks';
+const API_BASE = `${import.meta.env.VITE_API_URL}/api/tasks`;
 
 
 export default function Profile({ setCurrentUser, onLogout }) {

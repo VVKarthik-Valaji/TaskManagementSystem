@@ -4,7 +4,7 @@ import { PlusCircle, X, Save, Calendar, AlignLeft, Flag, CheckCircle } from 'luc
 import { baseControlClasses, priorityStyles, DEFAULT_TASK } from '../assets/dummy';
 
 //const API_BASE = 'http://localhost:4000/api/tasks';
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/tasks';
+const API_BASE = `${import.meta.env.VITE_API_URL}/api/tasks`;
 
 
 const TaskModal = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => {
